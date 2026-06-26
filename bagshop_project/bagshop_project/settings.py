@@ -16,6 +16,9 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(','
 if not DEBUG:
     ALLOWED_HOSTS.append('*.up.railway.app')
 
+# === ROOT URLCONF ===
+ROOT_URLCONF = 'bagshop_project.urls'
+
 # === INSTALLED_APPS (без изменений) ===
 INSTALLED_APPS = [
     'django.contrib.admin',
