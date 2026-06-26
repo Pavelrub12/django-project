@@ -1,1 +1,1 @@
-web: gunicorn bagshop_project.wsgi
+web: gunicorn bagshop_project.wsgi:application
