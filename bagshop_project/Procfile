@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath bagshop_project bagshop_project.wsgi:application
+web: gunicorn bagshop_project.wsgi:application
