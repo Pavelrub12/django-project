@@ -57,7 +57,7 @@ CORS_ALLOW_CREDENTIALS = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [],  # Измените на пустой список
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -116,3 +116,5 @@ REST_FRAMEWORK = {
 CSRF_TRUSTED_ORIGINS = [
     'https://django-project-production-8e78.up.railway.app',  # Замените на ваш URL
 ]
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
