@@ -11,10 +11,9 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 # === ALLOWED_HOSTS ===
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
-
-# Добавляем Railway домен
 if not DEBUG:
     ALLOWED_HOSTS.append('*.up.railway.app')
+    ALLOWED_HOSTS.append('django-project-production-fb79.up.railway.app')  # Добавьте эту строку
 
 # === ROOT URLCONF ===
 ROOT_URLCONF = 'bagshop_project.urls'
