@@ -63,7 +63,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = True
+    # SECURE_SSL_REDIRECT = True
 
 # === EMAIL ===
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
