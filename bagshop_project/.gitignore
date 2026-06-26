@@ -1,0 +1,38 @@
+# Виртуальное окружение
+venv/
+bagshop_project/venv/
+venv/
+
+# База данных
+db.sqlite3
+*.sqlite3
+
+# Медиа файлы
+media/
+
+# Файлы Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# Переменные окружения
+.env
+.env.local
+
+# Статика в продакшне
+staticfiles/
+staticfiles/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Логи
+*.log
+
+# Файлы системы
+.DS_Store
+Thumbs.db

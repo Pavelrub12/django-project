@@ -1,0 +1,162 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Каталог - Bag
+Shop{% endblock %} {% block content %}
+<div class="container my-4">
+  <div class="row">
+    <!-- Фильтры -->
+    <div class="col-md-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Фильтры</h5>
+          <form method="get" action="{% url 'catalog' %}">
+            <div class="mb-3">
+              <label class="form-label">Категория</label>
+              <select name="category" class="form-select">
+                <option value="">Все категории</option>
+                {% for cat in categories %}
+                <option
+                  value="{{ cat.id }}"
+                  {%
+                  if
+                  selected_category=""
+                  ="cat.id"
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  {{ cat.name }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Производитель</label>
+              <select name="manufacturer" class="form-select">
+                <option value="">Все производители</option>
+                {% for man in manufacturers %}
+                <option
+                  value="{{ man.id }}"
+                  {%
+                  if
+                  selected_manufacturer=""
+                  ="man.id"
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  {{ man.name }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Поиск</label>
+              <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Название товара"
+                value="{{ search_query|default:'' }}"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+              Применить
+            </button>
+            <a
+              href="{% url 'catalog' %}"
+              class="btn btn-outline-secondary w-100 mt-2"
+              >Сбросить</a
+            >
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Товары -->
+    <div class="col-md-9">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Товары</h4>
+        <span class="text-muted">Найдено: {{ products|length }}</span>
+      </div>
+
+      <div class="row" id="product-grid" data-dynamic="false">
+        {% for product in products %}
+        <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            {% if product.product_img %}
+            <img
+              src="{{ product.product_img.url }}"
+              class="card-img-top"
+              alt="{{ product.name }}"
+              style="height: 200px; object-fit: cover"
+            />
+            {% else %}
+            <img
+              src="https://via.placeholder.com/300x200"
+              class="card-img-top"
+              alt="No image"
+            />
+            {% endif %}
+            <div class="card-body">
+              <h6 class="card-title">{{ product.name|truncatechars:30 }}</h6>
+              <p class="card-text text-primary fw-bold">
+                {{ product.price }} руб.
+              </p>
+              <a
+                href="{% url 'product_detail' product.id %}"
+                class="btn btn-outline-primary btn-sm w-100"
+                >Подробнее</a
+              >
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-center">Товары не найдены</p>
+        {% endfor %}
+      </div>
+
+      <!-- Пагинация -->
+      {% if products.has_other_pages %}
+      <nav aria-label="Навигация">
+        <ul class="pagination justify-content-center">
+          {% if products.has_previous %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="?page={{ products.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}"
+              >«</a
+            >
+          </li>
+          {% endif %} {% for num in products.paginator.page_range %}
+          <li
+            class="page-item {% if products.number == num %}active{% endif %}"
+          >
+            <a
+              class="page-link"
+              href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}"
+              >{{ num }}</a
+            >
+          </li>
+          {% endfor %} {% if products.has_next %}
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="?page={{ products.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}"
+              >»</a
+            >
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<!-- JavaScript отключён для каталога, чтобы фильтры работали -->
+<script>
+  // Переопределяем loadProducts, чтобы ничего не делала
+  window.loadProducts = function () {
+    console.log("loadProducts отключена на странице каталога");
+  };
+</script>
+{% endblock %}

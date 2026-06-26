@@ -1,0 +1,76 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Главная - Bag
+Shop{% endblock %} {% block content %}
+<!-- Hero Section -->
+<section
+  class="hero-section text-white text-center py-5 mb-4"
+  style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+>
+  <div class="container">
+    <h1 class="display-3 fw-bold">🎒 Рюкзаки для школы</h1>
+    <p class="lead">Качественные, стильные и удобные рюкзаки для ваших детей</p>
+    <a href="{% url 'catalog' %}" class="btn btn-light btn-lg mt-3">
+      <i class="fas fa-arrow-right"></i> Перейти в каталог
+    </a>
+  </div>
+</section>
+
+<div class="container">
+  <!-- Популярные товары -->
+  <h2 class="text-center mb-4">🔥 Популярные товары</h2>
+  <div class="row" id="popular-products">
+    {% for product in popular_products %}
+    <div class="col-md-4 col-sm-6 mb-4">
+      <div class="card h-100 shadow-sm">
+        {% if product.product_img %}
+        <img
+          src="{{ product.product_img.url }}"
+          class="card-img-top"
+          alt="{{ product.name }}"
+          style="height: 200px; object-fit: cover"
+        />
+        {% else %}
+        <img
+          src="https://via.placeholder.com/300x200"
+          class="card-img-top"
+          alt="No image"
+        />
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name|truncatechars:30 }}</h5>
+          <p class="card-text text-primary fw-bold">{{ product.price }} руб.</p>
+          <a
+            href="{% url 'product_detail' product.id %}"
+            class="btn btn-outline-primary btn-sm"
+            >Подробнее</a
+          >
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center">Товары не найдены</p>
+    {% endfor %}
+  </div>
+
+  <!-- Категории -->
+  <h2 class="text-center mb-4">📂 Категории</h2>
+  <div class="row">
+    {% for category in categories %}
+    <div class="col-md-3 col-sm-6 mb-3">
+      <a
+        href="{% url 'catalog' %}?category={{ category.id }}"
+        class="text-decoration-none"
+      >
+        <div class="card text-center shadow-sm h-100">
+          <div class="card-body">
+            <i class="fas fa-folder-open fa-3x text-primary mb-2"></i>
+            <h6>{{ category.name }}</h6>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% empty %}
+    <p class="text-center">Категории не найдены</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

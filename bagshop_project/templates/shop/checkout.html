@@ -1,0 +1,59 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Оформление заказа -
+Bag Shop{% endblock %} {% block content %}
+<div class="container my-4">
+  <h2>Оформление заказа</h2>
+
+  {% if cart_items %}
+  <h4>Ваши товары:</h4>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Товар</th>
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Стоимость</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart_items %}
+      <tr>
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.product.price }} руб.</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.element_price }} руб.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="text-end">
+    <h4>Итого: {{ total_price }} руб.</h4>
+  </div>
+
+  <h4 class="mt-4">Данные для доставки:</h4>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="address" class="form-label">Адрес доставки:*</label>
+      <input
+        type="text"
+        name="address"
+        id="address"
+        class="form-control"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="phone" class="form-label">Телефон:*</label>
+      <input type="tel" name="phone" id="phone" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-success">✅ Подтвердить заказ</button>
+    <a href="{% url 'cart_view' %}" class="btn btn-outline-secondary"
+      >← Вернуться в корзину</a
+    >
+  </form>
+  {% else %}
+  <p>Ваша корзина пуста.</p>
+  <p><a href="{% url 'catalog' %}">Перейти в каталог</a></p>
+  {% endif %}
+</div>
+{% endblock %}
