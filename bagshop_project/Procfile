@@ -1,1 +1,1 @@
-web: gunicorn bagshop_project.wsgi:application
+web: gunicorn --env DJANGO_SETTINGS_MODULE=bagshop_project.settings bagshop_project.wsgi:application
